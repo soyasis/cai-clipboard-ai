@@ -1,13 +1,13 @@
-import { Form, ActionPanel, Action, showToast, Toast, Clipboard, popToRoot } from "@raycast/api";
-import { useState } from "react";
+import { Form, ActionPanel, Action, showToast, Toast, useNavigation } from "@raycast/api";
 import { translate } from "../services/llm";
+import { AIResultView } from "./AIResultView";
 
 interface Props {
   text: string;
 }
 
 export function TranslateForm({ text }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const { push } = useNavigation();
 
   async function handleSubmit(values: { language: string }) {
     if (!values.language.trim()) {
@@ -18,29 +18,18 @@ export function TranslateForm({ text }: Props) {
       return;
     }
 
-    setIsLoading(true);
-    const toast = await showToast({
-      style: Toast.Style.Animated,
-      title: "Translating...",
-    });
-
-    try {
-      const translation = await translate(text, values.language);
-      await Clipboard.copy(translation);
-      toast.style = Toast.Style.Success;
-      toast.title = `Translated to ${values.language}`;
-      toast.message = "Copied to clipboard";
-      await popToRoot();
-    } catch {
-      toast.style = Toast.Style.Failure;
-      toast.title = "Translation failed";
-      setIsLoading(false);
-    }
+    push(
+      <AIResultView
+        title={`Translation to ${values.language}`}
+        text={text}
+        generator={(text: string) => translate(text, values.language)}
+        loadingMessage={`Translating to ${values.language}`}
+      />,
+    );
   }
 
   return (
     <Form
-      isLoading={isLoading}
       actions={
         <ActionPanel>
           <Action.SubmitForm title="Translate" onSubmit={handleSubmit} />

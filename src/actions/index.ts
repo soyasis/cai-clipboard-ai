@@ -98,18 +98,12 @@ function getWordActions(text: string, llmStatus: LLMStatus | null): ActionItem[]
         title: `Translate to ${lang}`,
         icon: "🌍",
         shortcut: actions.length + 1,
-        execute: async () => {
-          const toast = await showToast({ style: Toast.Style.Animated, title: "Translating..." });
-          try {
-            const translation = await translate(text, lang);
-            await Clipboard.copy(translation);
-            toast.style = Toast.Style.Success;
-            toast.title = `Translated to ${lang}`;
-          } catch {
-            toast.style = Toast.Style.Failure;
-            toast.title = "Translation failed";
-          }
-        },
+        component: createElement(AIResultView, {
+          title: `Translation to ${lang}`,
+          text: text,
+          generator: (text: string) => translate(text, lang),
+          loadingMessage: `Translating to ${lang}`,
+        }),
       });
     });
 
@@ -169,18 +163,12 @@ function getShortTextActions(text: string, llmStatus: LLMStatus | null): ActionI
         title: `Translate to ${lang}`,
         icon: "🌍",
         shortcut: actions.length + 1,
-        execute: async () => {
-          const toast = await showToast({ style: Toast.Style.Animated, title: "Translating..." });
-          try {
-            const translation = await translate(text, lang);
-            await Clipboard.copy(translation);
-            toast.style = Toast.Style.Success;
-            toast.title = `Translated to ${lang}`;
-          } catch {
-            toast.style = Toast.Style.Failure;
-            toast.title = "Translation failed";
-          }
-        },
+        component: createElement(AIResultView, {
+          title: `Translation to ${lang}`,
+          text: text,
+          generator: (text: string) => translate(text, lang),
+          loadingMessage: `Translating to ${lang}`,
+        }),
       });
     });
 
@@ -231,40 +219,29 @@ function getLongTextActions(text: string, llmStatus: LLMStatus | null): ActionIt
       subtitle: "Get 2-3 sentence summary",
       icon: "📝",
       shortcut: actions.length + 1,
-      execute: async () => {
-        const toast = await showToast({ style: Toast.Style.Animated, title: "Summarizing..." });
-        try {
-          const summary = await summarize(text);
-          await Clipboard.copy(summary);
-          toast.style = Toast.Style.Success;
-          toast.title = "Summary copied!";
-        } catch {
-          toast.style = Toast.Style.Failure;
-          toast.title = "Summarization failed";
-        }
-      },
+      component: createElement(AIResultView, {
+        title: "Summary",
+        text: text,
+        generator: summarize,
+        loadingMessage: "Summarizing",
+      }),
     });
   }
 
   // Translate
   if (llmStatus?.running) {
+    const { translationLanguage1 } = getPreferenceValues<Preferences>();
     actions.push({
-      id: "translate-spanish",
-      title: "Translate to Spanish",
+      id: "translate-preferred",
+      title: `Translate to ${translationLanguage1}`,
       icon: "🌍",
       shortcut: actions.length + 1,
-      execute: async () => {
-        const toast = await showToast({ style: Toast.Style.Animated, title: "Translating..." });
-        try {
-          const translation = await translate(text, "Spanish");
-          await Clipboard.copy(translation);
-          toast.style = Toast.Style.Success;
-          toast.title = "Translated to Spanish";
-        } catch {
-          toast.style = Toast.Style.Failure;
-          toast.title = "Translation failed";
-        }
-      },
+      component: createElement(AIResultView, {
+        title: `Translation to ${translationLanguage1}`,
+        text: text,
+        generator: (text: string) => translate(text, translationLanguage1),
+        loadingMessage: `Translating to ${translationLanguage1}`,
+      }),
     });
   }
 
