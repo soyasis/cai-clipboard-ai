@@ -50,7 +50,7 @@ export async function detectContent(text: string): Promise<ContentResult> {
   }
 
   // Categorize by length
-  if (wordCount <= 3 && charCount < 50) {
+  if (wordCount <= 2 && charCount < 30) {
     return {
       type: "word",
       confidence: 0.9,
