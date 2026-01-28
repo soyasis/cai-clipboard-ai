@@ -8,6 +8,7 @@ import { openInMaps } from "./maps";
 import { createCalendarEvent } from "./calendar";
 import { ActionItem } from "../detection/types";
 import { AIResultView } from "../components/AIResultView";
+import { TranslateForm } from "../components/TranslateForm";
 
 interface Preferences {
   translationLanguage1: string;
@@ -112,6 +113,15 @@ function getWordActions(text: string, llmStatus: LLMStatus | null): ActionItem[]
       });
     });
 
+    // Add "Translate to other language" option
+    actions.push({
+      id: "translate-other",
+      title: "Translate to other language...",
+      subtitle: "Enter any language name",
+      icon: "🌐",
+      shortcut: actions.length + 1,
+      component: createElement(TranslateForm, { text }),
+    });
   }
 
   // Search Web
@@ -150,7 +160,9 @@ function getShortTextActions(text: string, llmStatus: LLMStatus | null): ActionI
 
   // Translate
   if (llmStatus?.running) {
-    const languages = ["Spanish", "French", "German"];
+    const { translationLanguage1, translationLanguage2 } = getPreferenceValues<Preferences>();
+    const languages = [translationLanguage1, translationLanguage2];
+
     languages.forEach((lang) => {
       actions.push({
         id: `translate-${lang.toLowerCase()}`,
@@ -170,6 +182,16 @@ function getShortTextActions(text: string, llmStatus: LLMStatus | null): ActionI
           }
         },
       });
+    });
+
+    // Add "Translate to other language" option
+    actions.push({
+      id: "translate-other",
+      title: "Translate to other language...",
+      subtitle: "Enter any language name",
+      icon: "🌐",
+      shortcut: actions.length + 1,
+      component: createElement(TranslateForm, { text }),
     });
   }
 
