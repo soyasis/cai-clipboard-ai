@@ -28,7 +28,7 @@ export function getActionsForContent(
       actions.push(...getLongTextActions(text, llmStatus));
       break;
     case "meeting":
-      actions.push(...getMeetingActions(text, detection, llmStatus));
+      actions.push(...getMeetingActions(text, detection));
       break;
     case "address":
       actions.push(...getAddressActions(text));
@@ -62,7 +62,7 @@ function getWordActions(text: string, llmStatus: LLMStatus | null): ActionItem[]
           await Clipboard.copy(definition);
           toast.style = Toast.Style.Success;
           toast.title = "Definition copied!";
-        } catch (error) {
+        } catch {
           toast.style = Toast.Style.Failure;
           toast.title = "Failed to define";
         }
@@ -86,7 +86,7 @@ function getWordActions(text: string, llmStatus: LLMStatus | null): ActionItem[]
             await Clipboard.copy(translation);
             toast.style = Toast.Style.Success;
             toast.title = `Translated to ${lang}`;
-          } catch (error) {
+          } catch {
             toast.style = Toast.Style.Failure;
             toast.title = "Translation failed";
           }
@@ -128,7 +128,7 @@ function getShortTextActions(text: string, llmStatus: LLMStatus | null): ActionI
             await Clipboard.copy(translation);
             toast.style = Toast.Style.Success;
             toast.title = `Translated to ${lang}`;
-          } catch (error) {
+          } catch {
             toast.style = Toast.Style.Failure;
             toast.title = "Translation failed";
           }
@@ -180,7 +180,7 @@ function getLongTextActions(text: string, llmStatus: LLMStatus | null): ActionIt
           await Clipboard.copy(summary);
           toast.style = Toast.Style.Success;
           toast.title = "Summary copied!";
-        } catch (error) {
+        } catch {
           toast.style = Toast.Style.Failure;
           toast.title = "Summarization failed";
         }
@@ -202,7 +202,7 @@ function getLongTextActions(text: string, llmStatus: LLMStatus | null): ActionIt
           await Clipboard.copy(translation);
           toast.style = Toast.Style.Success;
           toast.title = "Translated to Spanish";
-        } catch (error) {
+        } catch {
           toast.style = Toast.Style.Failure;
           toast.title = "Translation failed";
         }
@@ -224,7 +224,7 @@ function getLongTextActions(text: string, llmStatus: LLMStatus | null): ActionIt
   return actions;
 }
 
-function getMeetingActions(text: string, detection: ContentResult, llmStatus: LLMStatus | null): ActionItem[] {
+function getMeetingActions(text: string, detection: ContentResult): ActionItem[] {
   const actions: ActionItem[] = [];
 
   // Create Calendar Event
@@ -350,7 +350,7 @@ function getJsonActions(text: string): ActionItem[] {
           const pretty = JSON.stringify(parsed, null, 2);
           await Clipboard.copy(pretty);
           await showToast({ style: Toast.Style.Success, title: "Formatted JSON copied" });
-        } catch (error) {
+        } catch {
           await showToast({ style: Toast.Style.Failure, title: "Invalid JSON" });
         }
       },

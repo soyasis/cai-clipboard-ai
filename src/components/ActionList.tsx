@@ -1,4 +1,4 @@
-import { Action, ActionPanel, List, Icon, openExtensionPreferences } from "@raycast/api";
+import { Action, ActionPanel, List, openExtensionPreferences } from "@raycast/api";
 import { useState, useEffect } from "react";
 import { ContentResult, ContentType } from "../detection/types";
 import { checkLLM, LLMStatus } from "../services/llm";
@@ -58,7 +58,7 @@ export function ActionList({ text, detection, source }: Props) {
                   title={action.title}
                   icon={action.icon}
                   onAction={action.execute}
-                  shortcut={{ modifiers: ["cmd"], key: String(index + 1) as any }}
+                  shortcut={{ modifiers: ["cmd"], key: (index + 1).toString() as "1" }}
                 />
               </ActionPanel>
             }

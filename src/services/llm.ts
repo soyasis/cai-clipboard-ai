@@ -54,7 +54,7 @@ export async function checkLLM(): Promise<LLMStatus> {
 
     if (!response.ok) throw new Error("Server not responding");
     return { running: true };
-  } catch (error) {
+  } catch {
     return {
       running: false,
       error: `Cannot connect to ${baseUrl}`,
