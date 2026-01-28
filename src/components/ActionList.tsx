@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { ContentResult, ContentType } from "../detection/types";
 import { checkLLM, LLMStatus } from "../services/llm";
 import { getActionsForContent } from "../actions";
-import { TranslateForm } from "./TranslateForm";
 
 interface Props {
   text: string;
@@ -76,21 +75,6 @@ export function ActionList({ text, detection, source }: Props) {
         ))}
       </List.Section>
 
-      {llmStatus?.running && (
-        <List.Section title="More Options">
-          <List.Item
-            icon="🌐"
-            title="Translate to other language..."
-            subtitle="Enter any language name"
-            actions={
-              <ActionPanel>
-                <Action.Push title="Translate to Other Language" target={<TranslateForm text={text} />} />
-              </ActionPanel>
-            }
-          />
-        </List.Section>
-      )}
-
       {!llmStatus?.running && (
         <List.Section title="⚠️ Local LLM not available">
           <List.Item
@@ -110,9 +94,13 @@ export function ActionList({ text, detection, source }: Props) {
         <List.Item
           icon="📋"
           title="Copy as plain text"
+          accessories={[{ text: `⌘${actions.length + 1}` }]}
           actions={
             <ActionPanel>
-              <Action.CopyToClipboard content={text} />
+              <Action.CopyToClipboard
+                content={text}
+                shortcut={{ modifiers: ["cmd"], key: (actions.length + 1).toString() as "1" }}
+              />
             </ActionPanel>
           }
         />
