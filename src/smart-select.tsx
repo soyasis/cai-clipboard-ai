@@ -14,9 +14,16 @@ export default function SmartSelect() {
   useEffect(() => {
     async function loadText() {
       try {
+        // Add a small delay to allow the system to capture the selection
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
         // Try to get selected text first
         try {
           const selectedText = await getSelectedText();
+
+          // Copy the selected text to clipboard for reliability
+          await Clipboard.copy(selectedText);
+
           setText(selectedText);
           setSource("selection");
           const result = await detectContent(selectedText);
