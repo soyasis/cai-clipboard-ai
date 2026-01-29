@@ -33,7 +33,10 @@ function extractEventTitle(text: string): string {
   // Remove common time and location indicators to clean up the title
   let cleaned = text
     // Remove date/time patterns
-    .replace(/\b(?:on|at)?\s*(?:tomorrow|today|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi, "")
+    .replace(
+      /\b(?:on|at)?\s*(?:tomorrow|today|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi,
+      "",
+    )
     .replace(/\b(?:next|this)\s+(?:week|month|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi, "")
     .replace(/\bat\s+\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/gi, "")
     .replace(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm)\b/gi, "")
@@ -76,7 +79,7 @@ function buildGoogleCalendarUrl(title: string, date: Date, location?: string, or
   if (originalText) {
     description = `"${originalText}"\n\n`;
   }
-  description += "Created with Cai, a Raycast extension for intelligent clipboard actions.";
+  description += "Created with Cai, a Raycast extension.";
 
   const params = new URLSearchParams({
     action: "TEMPLATE",
