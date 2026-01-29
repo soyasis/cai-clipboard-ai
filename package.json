@@ -2,12 +2,11 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "cai-clipboard-action-intelligence",
   "title": "Cai: Clipboard Action Intelligence",
-  "description": "A privacy-friendly, AI-powered clipboard assistant that analyzes copied content and suggests intelligent actions using locally-run language models, ensuring all data remains on-device and secure.",
+  "description": "Analyze clipboard content and get intelligent actions using local AI. Privacy-first, no cloud required.",
   "icon": "extension-icon.png",
   "author": "soyasis",
   "platforms": [
-    "macOS",
-    "Windows"
+    "macOS"
   ],
   "categories": [
     "Productivity",
@@ -19,16 +18,24 @@
     {
       "name": "smart-paste",
       "title": "Smart Paste",
-      "subtitle": "Get smart actions for clipboard content",
       "description": "Analyzes your clipboard content and suggests relevant actions like creating calendar events, opening maps, translating, summarizing, and more",
-      "mode": "view"
+      "mode": "view",
+      "keywords": [
+        "clipboard",
+        "paste",
+        "smart"
+      ]
     },
     {
       "name": "smart-select",
       "title": "Smart Select",
-      "subtitle": "Get smart actions for selected text",
       "description": "Analyzes selected text and suggests relevant actions like creating calendar events, opening maps, translating, summarizing, and more",
-      "mode": "view"
+      "mode": "view",
+      "keywords": [
+        "selection",
+        "select",
+        "text"
+      ]
     }
   ],
   "preferences": [
