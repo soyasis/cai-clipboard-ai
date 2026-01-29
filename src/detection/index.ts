@@ -86,6 +86,8 @@ function isValidJSON(text: string): boolean {
 function extractLocation(text: string): string | undefined {
   // Look for "at [Location]" or "in [Location]"
   // Capture everything after "at/in" until we hit a time indicator or end
-  const match = text.match(/(?:at|in)\s+(?:the\s+)?([^,.\n]+?)(?:\s+(?:at|on|tomorrow|today|next|this|\d{1,2}(?::\d{2})?\s*(?:am|pm)?)|$)/i);
+  const match = text.match(
+    /(?:at|in)\s+(?:the\s+)?([^,.\n]+?)(?:\s+(?:at|on|tomorrow|today|next|this|\d{1,2}(?::\d{2})?\s*(?:am|pm)?)|$)/i,
+  );
   return match?.[1]?.trim();
 }

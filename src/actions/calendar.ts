@@ -31,7 +31,7 @@ export async function createCalendarEvent(text: string, detection: ContentResult
 
 function extractEventTitle(text: string): string {
   // Remove common time and location indicators to clean up the title
-  let cleaned = text
+  const cleaned = text
     // Remove date/time patterns
     .replace(
       /\b(?:on|at)?\s*(?:tomorrow|today|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi,

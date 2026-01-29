@@ -1,4 +1,4 @@
-import { Detail, ActionPanel, Action, showToast, Toast, Clipboard } from "@raycast/api";
+import { Detail, ActionPanel, Action, showToast, Toast } from "@raycast/api";
 import { useState, useEffect } from "react";
 
 interface Props {
