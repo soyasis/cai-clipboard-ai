@@ -23,7 +23,6 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 
 ### Word Detection & Definition
 
-<img src="assets/Cai-wordActions.png" width="450" alt="Word Actions">
 <img src="assets/Cai-wordDefinition.png" width="450" alt="Word Definition">
 
 ### Text Actions
@@ -33,13 +32,12 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 ### Custom Action
 
 <img src="assets/Cai-customAction.png" width="450" alt="Custom Action">
-<img src="assets/Cai-customActionResponse.png" width="450" alt="Custom Action Response">
 
 ### Datetime and Location Actions
 
 <img src="assets/Cai-datetimeActions.png" width="450" alt="Datetime Actions">
+<img src="assets/Cai-datetimeActions-1.png" width="450" alt="Datetime Actions with Location">
 <img src="assets/Cai-calendarAction.png" width="450" alt="Create Calendar Event">
-<img src="assets/Cai-mapsAction.png" width="450" alt="Maps Action">
 
 ## 📦 Installation
 
@@ -70,7 +68,7 @@ After installation, set up these shortcuts in Raycast Settings → Extensions �
 
 ## 🚀 Usage
 
-### Smart Select (⌥⌘C)
+### Smart Select (⌥C)
 
 Select some text, trigger command and get suggested relevant actions.
 
@@ -82,7 +80,7 @@ Select some text, trigger command and get suggested relevant actions.
 - Select `https://github.com/...` → Open in browser, copy as markdown
 - Select `{"name":"John"}` → Pretty print JSON, copy formatted
 
-### Smart Paste (⌥⌘V)
+### Smart Paste (⌥V)
 
 Analyzes your clipboard content and suggests relevant actions.
 
