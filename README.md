@@ -4,6 +4,8 @@
 >
 > **Privacy-first**: 100% local AI processing. Your data never leaves your machine.
 
+![Cai Actions Demo](assets/Cai-Demo.gif)
+
 A privacy-friendly, AI-powered clipboard assistant that analyzes copied content and suggests intelligent actions using locally-run language models, ensuring all data remains on-device and secure.
 
 ## ✨ Features
@@ -16,6 +18,28 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 - 🗺️ **Location Actions**: Open addresses in Apple Maps or Google Maps
 - 🔒 **Privacy-First**: All AI processing happens locally - no cloud, no tracking
 - ⚡ **Fast & Lightweight**: Instant analysis with minimal resource usage
+
+## 📺 Screenshots
+
+### Word Detection & Definition
+
+<img src="assets/Cai-wordActions.png" width="450" alt="Word Actions">
+<img src="assets/Cai-wordDefinition.png" width="450" alt="Word Definition">
+
+### Text Actions
+
+<img src="assets/Cai-textActions.png" width="450" alt="Text Actions">
+
+### Custom Action
+
+<img src="assets/Cai-customAction.png" width="450" alt="Custom Action">
+<img src="assets/Cai-customActionResponse.png" width="450" alt="Custom Action Response">
+
+### Datetime and Location Actions
+
+<img src="assets/Cai-datetimeActions.png" width="450" alt="Datetime Actions">
+<img src="assets/Cai-calendarAction.png" width="450" alt="Create Calendar Event">
+<img src="assets/Cai-mapsAction.png" width="450" alt="Maps Action">
 
 ## 📦 Installation
 
@@ -86,15 +110,15 @@ For advanced features (define, translate, summarize), you'll need a local LLM se
 
 Cai intelligently detects content and offers context-aware actions:
 
-| Type           | Examples                                    | Actions                                      |
-| -------------- | ------------------------------------------- | -------------------------------------------- |
-| **Word**       | "serendipity", "photosynthesis"             | Custom Action (⌘1), Define, Explain, Translate, Search |
+| Type           | Examples                                    | Actions                                                      |
+| -------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| **Word**       | "serendipity", "photosynthesis"             | Custom Action (⌘1), Define, Explain, Translate, Search       |
 | **Short Text** | "quantum computing is revolutionary"        | Custom Action (⌘1), Explain, Translate, Search Web/Wikipedia |
-| **Long Text**  | Emails, articles (100+ chars)               | Custom Action (⌘1), Summarize, Translate, Search |
-| **Meeting**    | "Tuesday at 3pm", "Lunch tomorrow"          | Custom Action (⌘1), Create Calendar Event, Open in Maps |
-| **Address**    | "123 Main St, NYC", "Calle Mayor 5, Madrid" | Custom Action (⌘1), Open in Maps |
-| **URL**        | "https://github.com/..."                    | Custom Action (⌘1), Open in Browser, Copy as Markdown |
-| **JSON**       | `{"key": "value"}`                          | Custom Action (⌘1), Pretty Print |
+| **Long Text**  | Emails, articles (100+ chars)               | Custom Action (⌘1), Summarize, Translate, Search             |
+| **Meeting**    | "Tuesday at 3pm", "Lunch tomorrow"          | Custom Action (⌘1), Create Calendar Event, Open in Maps      |
+| **Address**    | "123 Main St, NYC", "Calle Mayor 5, Madrid" | Custom Action (⌘1), Open in Maps                             |
+| **URL**        | "https://github.com/..."                    | Custom Action (⌘1), Open in Browser, Copy as Markdown        |
+| **JSON**       | `{"key": "value"}`                          | Custom Action (⌘1), Pretty Print                             |
 
 **Custom Action (⌘1)** is always available and can be configured in preferences to do anything you want (e.g., "Improve writing", "Create email reply", "Count words", "Convert to Python list").
 
