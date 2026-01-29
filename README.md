@@ -15,7 +15,7 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 - ⚡ **Custom Action (⌘1)**: Create your own AI action accessible via keyboard shortcut
 - 🌍 **Flexible Translation**: Support for 10+ languages with custom language input
 - 🗓️ **Quick Calendar Events**: Detect dates and create calendar events instantly
-- 🗺️ **Location Actions**: Open addresses in Apple Maps or Google Maps
+- 🗺️ **Location Actions**: Open addresses in Apple Maps (web on Windows) or Google Maps
 - 🔒 **Privacy-First**: All AI processing happens locally - no cloud, no tracking
 - ⚡ **Fast & Lightweight**: Instant analysis with minimal resource usage
 
@@ -130,7 +130,7 @@ Access preferences via Raycast Settings → Extensions → Cai:
 - **Translation Language 1 & 2**: Choose your preferred languages for quick translations
 - **Custom Action Prompt**: Set your own AI instruction for the ⌘1 shortcut
 - **Search Engine**: Brave Search (default), DuckDuckGo, Google, Bing, Ecosia
-- **Maps App**: Apple Maps (default) or Google Maps
+- **Maps App**: Apple Maps (default, web version on Windows) or Google Maps
 
 ## 🛠️ Development
 

@@ -6,7 +6,8 @@
   "icon": "extension-icon.png",
   "author": "soyasis",
   "platforms": [
-    "macOS"
+    "macOS",
+    "Windows"
   ],
   "categories": [
     "Productivity",
@@ -120,7 +121,7 @@
     {
       "name": "preferredMaps",
       "title": "Preferred Maps App",
-      "description": "Which maps app to open addresses in",
+      "description": "Which maps app to open addresses in (Apple Maps opens in browser on Windows)",
       "type": "dropdown",
       "default": "apple",
       "data": [
