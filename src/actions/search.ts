@@ -1,9 +1,5 @@
 import { open, getPreferenceValues } from "@raycast/api";
 
-interface Preferences {
-  preferredSearchEngine: "google" | "duckduckgo" | "bing" | "brave" | "ecosia";
-}
-
 const SEARCH_ENGINES: Record<string, string> = {
   google: "https://www.google.com/search?q=",
   duckduckgo: "https://duckduckgo.com/?q=",

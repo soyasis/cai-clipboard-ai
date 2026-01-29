@@ -5,10 +5,6 @@ import { checkLLM, LLMStatus } from "../services/llm";
 import { getActionsForContent } from "../actions";
 import { CustomActionForm } from "./CustomActionForm";
 
-interface Preferences {
-  customActionPrompt: string;
-}
-
 interface Props {
   text: string;
   detection: ContentResult;

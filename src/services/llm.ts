@@ -1,11 +1,5 @@
 import { getPreferenceValues } from "@raycast/api";
 
-interface Preferences {
-  llmProvider: "lmstudio" | "ollama" | "localai" | "textgen" | "custom";
-  llmCustomUrl: string;
-  llmModel: string;
-}
-
 // Provider URL mappings
 const PROVIDER_URLS: Record<string, string> = {
   lmstudio: "http://127.0.0.1:1234/v1",

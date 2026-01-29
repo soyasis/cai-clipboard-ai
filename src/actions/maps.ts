@@ -1,9 +1,5 @@
 import { open, getPreferenceValues } from "@raycast/api";
 
-interface Preferences {
-  preferredMaps: "apple" | "google";
-}
-
 /**
  * Open location in maps
  */

@@ -10,11 +10,6 @@ import { ActionItem } from "../detection/types";
 import { AIResultView } from "../components/AIResultView";
 import { TranslateForm } from "../components/TranslateForm";
 
-interface Preferences {
-  translationLanguage1: string;
-  translationLanguage2: string;
-}
-
 /**
  * Get actions for detected content
  */
