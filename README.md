@@ -1,6 +1,8 @@
-# Cai: Clipboard Action Intelligence
+# Cai: local clipboard AI
 
 ### Copy anything. Get smart actions.
+
+**Official website: [getcai.app](getcai.app)**
 
 **Privacy-first**: 100% local AI processing. Your data never leaves your machine.
 
@@ -18,25 +20,6 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 - 🗺️ **Location Actions**: Open addresses in Apple Maps (web on Windows) or Google Maps
 - 🔒 **Privacy-First**: All AI processing happens locally - no cloud, no tracking
 - ⚡ **Fast & Lightweight**: Instant analysis with minimal resource usage
-
-## 📺 Screenshots
-
-### Word Detection & Definition
-
-<img src="assets/Cai-wordActions.png" width="450" alt="Word Definition">
-<img src="assets/Cai-wordDefinition.png" width="450" alt="Word Definition">
-
-### Text & Custom Actions
-
-<img src="assets/Cai-textActions.png" width="450" alt="Text Actions">
-<img src="assets/Cai-customAction.png" width="450" alt="Custom Action">
-<img src="assets/Cai-customActionResponse.png" width="450" alt="Custom Action">
-
-### Datetime and Location Actions
-
-<img src="assets/Cai-datetimeActions.png" width="450" alt="Datetime Actions">
-<img src="assets/Cai-calendarAction.png" width="450" alt="Create Calendar Event">
-<img src="assets/Cai-mapsAction.png" width="450" alt="Create Calendar Event">
 
 ## 📦 Installation
 
