@@ -31,45 +31,80 @@ export async function detectContent(text: string): Promise<ContentResult> {
   // Check for dates/meetings
   const dateResults = chrono.parse(normalizedText);
   if (dateResults.length > 0) {
-    // If we have multiple results, try to merge date and time components
-    let finalDate: Date;
-    let dateText: string;
+    // Filter out false positives (e.g., currency amounts like "$1", version numbers, durations)
+    const firstResult = dateResults[0];
+    const dateTextIndex = trimmed.indexOf(firstResult.text);
 
-    if (dateResults.length > 1) {
-      // Check if first has day but no time, and second has time
-      const first = dateResults[0];
-      const second = dateResults[1];
+    // Check if the detected "time" is actually a currency or other false positive
+    let isValidDateTime = true;
 
-      const firstHasDay = first.start.isCertain("day");
-      const firstHasTime = first.start.isCertain("hour");
-      const secondHasTime = second.start.isCertain("hour");
-
-      if (firstHasDay && !firstHasTime && secondHasTime) {
-        // Merge: use date from first, time from second
-        const baseDate = first.start.date();
-        const timeDate = second.start.date();
-        baseDate.setHours(timeDate.getHours(), timeDate.getMinutes(), 0, 0);
-        finalDate = baseDate;
-        dateText = `${first.text} ${second.text}`;
-      } else {
-        // Use the first result
-        finalDate = first.start.date();
-        dateText = first.text;
+    if (dateTextIndex > 0) {
+      const charBefore = trimmed[dateTextIndex - 1];
+      // Skip if preceded by currency symbols or version indicators
+      if (/[$€£¥#v]/.test(charBefore)) {
+        isValidDateTime = false;
       }
-    } else {
-      finalDate = dateResults[0].start.date();
-      dateText = dateResults[0].text;
     }
 
-    return {
-      type: "meeting",
-      confidence: 0.9,
-      entities: {
-        date: finalDate,
-        dateText: dateText,
-        location: extractLocation(trimmed),
-      },
-    };
+    // Filter out durations (e.g., "for 20 seconds", "2-3 minutes")
+    if (/\b(for|about|around)\s+\d+(-\d+)?\s+(seconds?|minutes?|hours?)\b/i.test(firstResult.text)) {
+      isValidDateTime = false;
+    }
+
+    // Additional check: if only time was detected (no date), require meeting context
+    const onlyTimeDetected =
+      !firstResult.start.isCertain("day") &&
+      !firstResult.start.isCertain("month") &&
+      firstResult.start.isCertain("hour");
+
+    if (onlyTimeDetected && charCount > 50) {
+      // For longer text with only a time (no date), require meeting keywords
+      if (!hasMeetingKeywords(trimmed)) {
+        isValidDateTime = false;
+      }
+    }
+
+    if (isValidDateTime) {
+      // If we have multiple results, try to merge date and time components
+      let finalDate: Date;
+      let dateText: string;
+
+      if (dateResults.length > 1) {
+        // Check if first has day but no time, and second has time
+        const first = dateResults[0];
+        const second = dateResults[1];
+
+        const firstHasDay = first.start.isCertain("day");
+        const firstHasTime = first.start.isCertain("hour");
+        const secondHasTime = second.start.isCertain("hour");
+
+        if (firstHasDay && !firstHasTime && secondHasTime) {
+          // Merge: use date from first, time from second
+          const baseDate = first.start.date();
+          const timeDate = second.start.date();
+          baseDate.setHours(timeDate.getHours(), timeDate.getMinutes(), 0, 0);
+          finalDate = baseDate;
+          dateText = `${first.text} ${second.text}`;
+        } else {
+          // Use the first result
+          finalDate = first.start.date();
+          dateText = first.text;
+        }
+      } else {
+        finalDate = dateResults[0].start.date();
+        dateText = dateResults[0].text;
+      }
+
+      return {
+        type: "meeting",
+        confidence: 0.9,
+        entities: {
+          date: finalDate,
+          dateText: dateText,
+          location: extractLocation(trimmed),
+        },
+      };
+    }
   }
 
   // Check for meeting-like text even without parseable date
