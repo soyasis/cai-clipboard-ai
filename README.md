@@ -43,7 +43,7 @@ A privacy-friendly, AI-powered clipboard assistant that analyzes copied content 
 1. Install from Raycast Store (coming soon!)
 2. Or clone and run locally:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/soyasis/cai-clipboard-action-intelligence.git
    cd cai-clipboard-action-intelligence
    npm install
    npm run dev
