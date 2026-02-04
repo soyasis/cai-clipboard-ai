@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "cai-clipboard-action-intelligence",
-  "title": "Cai: Clipboard Action Intelligence",
-  "description": "Analyze clipboard content and get intelligent actions using local AI. Privacy-first, no cloud required.",
+  "name": "cai-clipboard-ai",
+  "title": "Cai: Local Clipboard AI",
+  "description": "Select text and run intelligent actions with ⌥C. Private and local, powered by your favorite AI.",
   "icon": "extension-icon.png",
   "author": "soyasis",
   "platforms": [
@@ -141,8 +141,12 @@
       "title": "Translation Language 1",
       "description": "First preferred language for quick translations",
       "type": "dropdown",
-      "default": "Spanish",
+      "default": "English",
       "data": [
+        {
+          "title": "English",
+          "value": "English"
+        },
         {
           "title": "Spanish",
           "value": "Spanish"
@@ -191,8 +195,12 @@
       "title": "Translation Language 2",
       "description": "Second preferred language for quick translations",
       "type": "dropdown",
-      "default": "French",
+      "default": "Spanish",
       "data": [
+        {
+          "title": "English",
+          "value": "English"
+        },
         {
           "title": "Spanish",
           "value": "Spanish"
