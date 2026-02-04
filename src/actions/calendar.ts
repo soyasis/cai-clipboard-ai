@@ -38,8 +38,9 @@ function extractEventTitle(text: string): string {
       "",
     )
     .replace(/\b(?:next|this)\s+(?:week|month|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi, "")
-    .replace(/\bat\s+\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/gi, "")
-    .replace(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm)\b/gi, "")
+    .replace(/\bat\s+\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?\b/gi, "")
+    .replace(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm|h)\b/gi, "")
+    .replace(/\bfrom\s+\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?\s+onwards?\b/gi, "")
     // Remove location patterns
     .replace(/\bat\s+(?:the\s+)?[A-Z][^.!?]*$/i, "")
     .replace(/\bin\s+(?:the\s+)?[A-Z][^.!?]*$/i, "")
@@ -55,13 +56,29 @@ function extractEventTitle(text: string): string {
   for (const pattern of patterns) {
     const match = cleaned.match(pattern);
     if (match && match[1].trim()) {
-      const title = match[1].trim();
+      let title = match[1].trim();
+      // Capitalize first letter and remove leading "the"
+      title = title.replace(/^the\s+/i, "");
+      title = title.charAt(0).toUpperCase() + title.slice(1);
       return title.length > 50 ? title.slice(0, 47) + "..." : title;
     }
   }
 
-  // If still too generic, just use "Meeting"
-  if (cleaned.length < 3 || /^(let'?s?\s*)?(meet|sync|call|chat)$/i.test(cleaned)) {
+  // Check for generic/vague phrases that should just be "Meeting"
+  const genericPatterns = [
+    /^(let'?s?\s*)?(meet|sync|call|chat)$/i,
+    /^(i'?m?\s*)?(gonna be|will be|going to be)\s+(working|there|around)$/i,
+    /^shall we (meet|have)/i,
+  ];
+
+  for (const pattern of genericPatterns) {
+    if (pattern.test(cleaned)) {
+      return "Meeting";
+    }
+  }
+
+  // If cleaned text is too short or empty, use "Meeting"
+  if (cleaned.length < 3) {
     return "Meeting";
   }
 

@@ -9,6 +9,7 @@ import { createCalendarEvent } from "./calendar";
 import { ActionItem } from "../detection/types";
 import { AIResultView } from "../components/AIResultView";
 import { TranslateForm } from "../components/TranslateForm";
+import { ResultView } from "../components/ResultView";
 
 /**
  * Get actions for detected content
@@ -386,31 +387,53 @@ function getUrlActions(text: string): ActionItem[] {
 }
 
 function getJsonActions(text: string): ActionItem[] {
+  // Format the JSON for preview
+  let formattedJson: string;
+  try {
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      // Try removing trailing comma (common when copying from code)
+      const cleaned = text.replace(/([}\]])\s*,\s*$/, "$1");
+      parsed = JSON.parse(cleaned);
+    }
+    formattedJson = JSON.stringify(parsed, null, 2);
+  } catch {
+    formattedJson = text; // Fallback to original if parsing fails
+  }
+
   return [
     {
       id: "pretty-print",
       title: "Pretty Print JSON",
       icon: "✨",
       shortcut: 1,
+      component: createElement(ResultView, {
+        title: "Formatted JSON",
+        content: "```json\n" + formattedJson + "\n```",
+      }),
+    },
+    {
+      id: "minify",
+      title: "Minify JSON",
+      icon: "🗜️",
+      shortcut: 2,
       execute: async () => {
         try {
-          const parsed = JSON.parse(text);
-          const pretty = JSON.stringify(parsed, null, 2);
-          await Clipboard.copy(pretty);
-          await showToast({ style: Toast.Style.Success, title: "Formatted JSON copied" });
+          let parsed;
+          try {
+            parsed = JSON.parse(text);
+          } catch {
+            const cleaned = text.replace(/([}\]])\s*,\s*$/, "$1");
+            parsed = JSON.parse(cleaned);
+          }
+          const minified = JSON.stringify(parsed);
+          await Clipboard.copy(minified);
+          await showToast({ style: Toast.Style.Success, title: "Minified JSON copied" });
         } catch {
           await showToast({ style: Toast.Style.Failure, title: "Invalid JSON" });
         }
-      },
-    },
-    {
-      id: "copy",
-      title: "Copy JSON",
-      icon: "📋",
-      shortcut: 2,
-      execute: async () => {
-        await Clipboard.copy(text);
-        await showToast({ style: Toast.Style.Success, title: "JSON copied" });
       },
     },
   ];

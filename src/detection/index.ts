@@ -25,19 +25,66 @@ export async function detectContent(text: string): Promise<ContentResult> {
     };
   }
 
+  // Normalize European time format (14h → 14:00) before parsing
+  const normalizedText = trimmed.replace(/\b(\d{1,2})h\b/gi, "$1:00");
+
   // Check for dates/meetings
-  const dateResults = chrono.parse(trimmed);
+  const dateResults = chrono.parse(normalizedText);
   if (dateResults.length > 0) {
-    const date = dateResults[0];
+    // If we have multiple results, try to merge date and time components
+    let finalDate: Date;
+    let dateText: string;
+
+    if (dateResults.length > 1) {
+      // Check if first has day but no time, and second has time
+      const first = dateResults[0];
+      const second = dateResults[1];
+
+      const firstHasDay = first.start.isCertain("day");
+      const firstHasTime = first.start.isCertain("hour");
+      const secondHasTime = second.start.isCertain("hour");
+
+      if (firstHasDay && !firstHasTime && secondHasTime) {
+        // Merge: use date from first, time from second
+        const baseDate = first.start.date();
+        const timeDate = second.start.date();
+        baseDate.setHours(timeDate.getHours(), timeDate.getMinutes(), 0, 0);
+        finalDate = baseDate;
+        dateText = `${first.text} ${second.text}`;
+      } else {
+        // Use the first result
+        finalDate = first.start.date();
+        dateText = first.text;
+      }
+    } else {
+      finalDate = dateResults[0].start.date();
+      dateText = dateResults[0].text;
+    }
+
     return {
       type: "meeting",
       confidence: 0.9,
       entities: {
-        date: date.start.date(),
-        dateText: date.text,
+        date: finalDate,
+        dateText: dateText,
         location: extractLocation(trimmed),
       },
     };
+  }
+
+  // Check for meeting-like text even without parseable date
+  // (e.g., "meet at Cafe Amalia", "lunch at Restaurant X")
+  if (hasMeetingKeywords(trimmed)) {
+    const location = extractLocation(trimmed);
+    if (location) {
+      return {
+        type: "meeting",
+        confidence: 0.7,
+        entities: {
+          location,
+        },
+      };
+    }
   }
 
   // Check address
@@ -75,19 +122,41 @@ export async function detectContent(text: string): Promise<ContentResult> {
 
 function isValidJSON(text: string): boolean {
   if (!text.startsWith("{") && !text.startsWith("[")) return false;
+
+  // Try parsing as-is first
   try {
     JSON.parse(text);
     return true;
   } catch {
-    return false;
+    // If it fails, try removing trailing comma (common when copying from code)
+    const withoutTrailingComma = text.replace(/([}\]])\s*,\s*$/, "$1");
+    try {
+      JSON.parse(withoutTrailingComma);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
 
+function hasMeetingKeywords(text: string): boolean {
+  const meetingKeywords = /\b(meet|meeting|lunch|dinner|breakfast|coffee|call|sync|chat|working at|gonna be at)\b/i;
+  return meetingKeywords.test(text);
+}
+
 function extractLocation(text: string): string | undefined {
-  // Look for "at [Location]" or "in [Location]"
-  // Capture everything after "at/in" until we hit a time indicator or end
+  // Prioritize "in [Location]" or "at [Place Name]" (not times)
+  // Look for location keywords followed by a place name (capitalized or common place words)
+  const placeMatch = text.match(
+    /(?:at|in)\s+(?:the\s+)?([A-Z][a-zA-Z\s]+?|(?:cafe|restaurant|bar|office|park|library|gym|mall|center|store|shop|hotel)\s+[a-zA-Z\s]+?)(?:\s+(?:for|from|at\s+\d|on|tomorrow|today|next|this)|$)/i,
+  );
+  if (placeMatch) {
+    return placeMatch[1].trim();
+  }
+
+  // Fallback: general "at/in [Location]" pattern
   const match = text.match(
-    /(?:at|in)\s+(?:the\s+)?([^,.\n]+?)(?:\s+(?:at|on|tomorrow|today|next|this|\d{1,2}(?::\d{2})?\s*(?:am|pm)?)|$)/i,
+    /(?:at|in)\s+(?:the\s+)?([^,.\n]+?)(?:\s+(?:at|on|for|from|tomorrow|today|next|this|\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?)|$)/i,
   );
   return match?.[1]?.trim();
 }
