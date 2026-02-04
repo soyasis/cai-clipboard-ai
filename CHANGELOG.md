@@ -34,6 +34,9 @@
 - Async cancellation pattern to prevent memory leaks
 - European time format support (14h → 14:00) for natural language date parsing
 - Smart date/time merging (e.g., "tomorrow at 14h" correctly combines date and time)
+- False positive filtering for date detection (filters out currency amounts like "$1", version numbers like "v1.2", durations like "for 20 seconds")
+- Context-aware date detection (requires meeting keywords for time-only detections in longer text)
+- Improved address pattern with word boundaries to prevent false matches (e.g., "$2 on the stock exchange")
 - Improved calendar event title extraction with pattern matching and generic phrase detection
 - Enhanced location extraction to capture full venue names with prioritized place name detection
 - JSON detection with trailing comma support (common when copying from code)
